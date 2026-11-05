@@ -1,0 +1,4 @@
+runpod
+requests
+websocket-client
+boto3
