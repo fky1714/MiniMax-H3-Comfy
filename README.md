@@ -85,6 +85,7 @@ Model Cache は、Model 欄に入力した文字列そのままでキャッシ�
 | `WORKER_MODE` | `i2v` | `i2v`（T2V / I2V）または `r2v` |
 | `HF_REPO` | モードに応じた公開フォーク | Model 欄と同じ、小文字のリポジトリ名 |
 | `MAX_SECONDS` | `10` | 受け付ける最大の秒数（モデルの上限は 15） |
+| `MIN_SECONDS` | `5` | 受け付ける最小の秒数（1 以上）。モデルの学習範囲は 5〜15 秒で、5 未満は範囲外の実験用。品質は保証されません |
 | `TURBO_MODE` | `1` | I2V / T2V で 8 ステップ蒸留 LoRA を使う |
 | `DEFAULT_STEPS` | `4`（Turbo 時） | `steps` を省略したときのステップ数 |
 | `R2V_TURBO_DEFAULT` | `0` | R2V で `turbo` を省略したときの値 |

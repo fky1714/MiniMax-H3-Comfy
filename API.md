@@ -18,7 +18,7 @@ RunPod Serverless エンドポイントのリクエスト／レスポンス契�
 | `image_base64` | string | — | 先頭キーフレーム（raw base64 または `data:` URL）。`image_url` との併用不可 |
 | `last_image_url` | string | — | 終端キーフレームの URL。単独指定も可 |
 | `last_image_base64` | string | — | 終端キーフレーム。`last_image_url` との併用不可 |
-| `seconds` | int | `5` | **5〜15**（エンドポイントの `MAX_SECONDS` で更に絞られる） |
+| `seconds` | int | `5` | **5〜15**（エンドポイントの `MAX_SECONDS` で更に絞られる。`MIN_SECONDS` を下げたエンドポイントでは 1〜4 も受け付けるが、モデルの学習範囲の外） |
 | `fps` | int | `24` | `24` のみ。MiniMax-H3 は 24fps 固定 |
 | `steps` | int | `4`（`TURBO_MODE` 既定オン時） | 1〜60。NFE（サンプラーのステップ数）。8 にすると毛並みなど細部が少しシャープになり、時間は約1.7倍 |
 | `seed` | int | `-1` | `-1` でランダム |
@@ -57,10 +57,14 @@ RunPod Serverless エンドポイントのリクエスト／レスポンス契�
 
 ### フレーム数の丸め
 
-`num_frames`（レスポンスでは `meta.frames`）は video VAE がデコードできる `17n + 5` に丸められ、結果の尺が 5〜15 秒に収まるよう調整されます（`src/workflow.py` の `frame_length()`）。
+`num_frames`（レスポンスでは `meta.frames`）は video VAE がデコードできる `17n + 5` に丸められ、結果の尺が 15 秒以内に収まるよう調整されます（`src/workflow.py` の `frame_length()`）。1〜4 は `MIN_SECONDS` を下げたエンドポイントだけが受け付けます。
 
 | `seconds` | `meta.frames` | 実尺 |
 | --- | --- | --- |
+| 1 | 39 | 1.63 s |
+| 2 | 56 | 2.33 s |
+| 3 | 73 | 3.04 s |
+| 4 | 107 | 4.46 s |
 | 5 | 124 | 5.17 s |
 | 8 | 192 | 8.00 s |
 | 10 | 243 | 10.13 s |

@@ -124,8 +124,9 @@ def validate_input(inp: dict) -> dict:
         raise ValidationError(
             f"seconds must be between {config.MIN_SECONDS} and {config.MAX_SECONDS}.",
             hint=(
-                f"You sent seconds={seconds}. MiniMax-H3 only generates "
-                f"{config.MIN_SECONDS}-{config.SECONDS_CEILING} second clips."
+                f"You sent seconds={seconds}. This endpoint accepts "
+                f"{config.MIN_SECONDS}-{config.MAX_SECONDS} (env MIN_SECONDS / MAX_SECONDS); "
+                f"MiniMax-H3 is trained on {config.TRAINED_MIN_SECONDS}-{config.SECONDS_CEILING} second clips."
             ),
         )
 

@@ -145,9 +145,15 @@ RESOLUTION_PRESETS = {
 }
 
 # -- Limits ───────────────────────────────────────────────────────────────────
-MIN_SECONDS = 5
 SECONDS_CEILING = 15
 MAX_SECONDS = min(int(os.getenv("MAX_SECONDS", "10")), SECONDS_CEILING)
+# The model is trained on 124-362 frames (5.17-15 s), so 5 is the default
+# floor. The node itself accepts any length on the 17n+5 grid from 5 frames
+# up; MIN_SECONDS lowers the floor for experiments below the trained range
+# (1 s -> 39 frames, 2 s -> 56, 3 s -> 73, 4 s -> 107). Quality there is not
+# guaranteed.
+TRAINED_MIN_SECONDS = 5
+MIN_SECONDS = max(1, min(int(os.getenv("MIN_SECONDS", str(TRAINED_MIN_SECONDS))), MAX_SECONDS))
 ALLOWED_FPS = {24}
 MAX_STEPS = 60
 MAX_PROMPT_LENGTH = 2000
